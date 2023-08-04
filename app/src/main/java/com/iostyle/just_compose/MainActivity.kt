@@ -33,15 +33,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.AsyncImage
 import com.iostyle.just_compose.ui.theme.JustComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -52,8 +57,17 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+//                    color = Color.Red
                 ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.ic_wallpaper),
+                        contentDescription = "wallpaper",
+                        contentScale = ContentScale.FillWidth,
+                        alignment = Alignment.BottomCenter,
+//                        modifier = Modifier
+//                            .background(Color.Blue)
+                    )
+                    PC()
                 }
             }
         }
@@ -173,14 +187,16 @@ fun MessageCard(message: String) {
         Modifier.padding(all = 8.dp)
 //            .background(Color.Yellow)
     ) {
-        Image(
-            painter = painterResource(id = R.mipmap.ic_avatar),
-            "",
-            Modifier
+        AsyncImage(
+            model = "https://avatars.githubusercontent.com/u/22219146?s=400&u=05fe262aa753f27abd7aa185ca430ac177472a0f&v=4",
+            contentDescription = "avatar",
+            modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .border(1.5.dp, MaterialTheme.colorScheme.secondary, CircleShape)
-
+                .border(
+                    1.5.dp, MaterialTheme.colorScheme.secondary,
+                    CircleShape
+                )
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -189,8 +205,10 @@ fun MessageCard(message: String) {
 
         val surfaceColor by animateColorAsState(
             targetValue = if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-            label = "XOColorAnimation"
+            label = "ColorAnimation"
         )
+
+        val context = LocalContext.current
 
         Column {
             Text(
@@ -208,15 +226,44 @@ fun MessageCard(message: String) {
                     .animateContentSize()
                     .padding(1.dp)
             ) {
+
                 Text(
                     text = "$message",
+                    //Modifier 代码顺序不同 显示有区别
                     Modifier
-                        .padding(4.dp)
-                        .clickable { isExpanded = !isExpanded },
+                        .clickable { isExpanded = !isExpanded }
+                        .padding(8.dp),
+//                        .background(Color.Gray)
+
+//                        .clickable {
+//                            Toast
+//                                .makeText(context, "Test", Toast.LENGTH_LONG)
+//                                .show()
+//                        }
                     maxLines = if (isExpanded) Int.MAX_VALUE else 1,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 16.sp,
+//                    color = Color.Blue
                 )
             }
+
+//            Button(onClick = {
+//                Toast
+//                    .makeText(context, "Test0", Toast.LENGTH_LONG)
+//                    .show()
+//            }, modifier = Modifier.clickable {
+//                Toast
+//                    .makeText(context, "Test1", Toast.LENGTH_LONG)
+//                    .show()
+//            }) {
+//                Text(text = "测试", modifier = Modifier.clickable {
+//                    Toast
+//                        .makeText(context, "Test2", Toast.LENGTH_LONG)
+//                        .show()
+//                })
+//            }
+
+
         }
 
     }
@@ -243,32 +290,20 @@ fun Conversation(messages: List<String>) {
     }
 }
 
-@Preview(name = "Light Mode", showBackground = true)
+//@Preview(name = "Light Mode", showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
 @Composable
 fun PC() {
     JustComposeTheme {
-        Surface {
-            Conversation(
-                messages = arrayListOf(
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                    "hahahahahahahahahahahahahahahahahahahahahahahaha",
-                    "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
-                )
+//        Surface {
+        Conversation(
+            messages = arrayListOf(
+                "hahahahahahahahahahahahahahahahahahahahahahahaha",
+                "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
+                "hahahahahahahahahahahahahahahahahahahahahahahaha",
+                "hohohohohohohohohohohohohohohohohohohohohohohohohohohohohoho",
             )
-        }
+        )
+//        }
     }
 }
