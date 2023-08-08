@@ -28,8 +28,13 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -67,7 +72,8 @@ class MainActivity : ComponentActivity() {
 //                        modifier = Modifier
 //                            .background(Color.Blue)
                     )
-                    PC()
+//                    TextFieldPreview()
+                    RecomposePreview()
                 }
             }
         }
@@ -291,7 +297,7 @@ fun Conversation(messages: List<String>) {
 }
 
 //@Preview(name = "Light Mode", showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
 @Composable
 fun PC() {
     JustComposeTheme {
@@ -306,4 +312,110 @@ fun PC() {
         )
 //        }
     }
+}
+
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+@Composable
+fun TextFieldPreview() {
+    var content by remember {
+        mutableStateOf("")
+    }
+    TextField(value = content, onValueChange = {
+        content = it
+    })
+}
+
+// list add操作不会触发 get set 的hook 无法通知recompose
+// mutableStateListOf 内部元素变化会触发recompose
+//val nums = mutableStateListOf(1, 2, 3)
+//
+//val map = mutableStateMapOf(1 to "one", 2 to "two")
+//
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+//@Composable
+//fun MutableListPreview() {
+//    Column {
+//        Button(onClick = {
+//            nums.add(nums.last() + 1)
+//        }) {
+//            Text(text = "+1")
+//        }
+//
+//        nums.forEach {
+//            Text(text = "$it")
+//        }
+//
+//        Button(onClick = {
+//            map[map.keys.last() + 1] = "add"
+//        }) {
+//            Text(text = "+1")
+//        }
+//        map.forEach { (k, v) ->
+//            Text(text = "$k $v")
+//        }
+//    }
+//}
+
+var textName by mutableStateOf("Original")
+var user = User("userName")
+var user2 = User("userName")
+
+// 这里name 为val 会被 recompose 优化掉重复执行
+//data class User(val name: String)
+//data class User(var name: String)
+
+@Stable
+class User(name: String) {
+    var name by mutableStateOf(name)
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+@Composable
+fun RecomposePreview() {
+    Column {
+        println("Column")
+//        Heavy()
+//        Heavy("test")
+
+//        Heavy(textName)
+        Heavy(user)
+
+        Text(text = textName)
+        Button(onClick = {
+            textName = "$textName Changed"
+            // 比对User对象equals 判断触发recompose
+//            user = User("userName Changed")
+//            user = User("userName")
+//            user = user2
+//            user = user
+            user.name = "userName Changed"
+        }) {
+            Text(text = "recompose")
+        }
+
+        Button(onClick = { user = User("userName Changed") }) {
+            Text(text = "User Changed")
+        }
+        Button(onClick = { user2 = User("userName Changed") }) {
+            Text(text = "User2 Changed")
+        }
+    }
+}
+
+@Composable
+fun Heavy() {
+    println("Heavy")
+    Text(text = "Heavy")
+}
+
+@Composable
+fun Heavy(text: String) {
+    println("Heavy")
+    Text(text = "Heavy $text")
+}
+
+@Composable
+fun Heavy(user: User) {
+    println("Heavy")
+    Text(text = "Heavy ${user.name}")
 }
