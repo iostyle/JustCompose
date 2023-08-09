@@ -32,14 +32,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -528,7 +531,7 @@ fun DerivedStatePreview() {
 
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
 @Composable
 fun TestDerivedState() {
     var name by remember { mutableStateOf("init") }
@@ -587,4 +590,23 @@ fun TestDerived(names: List<String>, onClick: () -> Unit) {
 
 // ------------------------------  Derived ⬆️  -------------------------------------
 
+val LocalName = compositionLocalOf<String> { error("No initialization") }
+// staticCompositionLocalOf 不会记录state、 当数据变化时，全量更新
+val LocalName2 = staticCompositionLocalOf<String> { error("No initialization") }
 
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+@Composable
+fun CompositionLocalPreview() {
+    val name by remember {
+        mutableStateOf("init")
+    }
+    // ...values
+    CompositionLocalProvider(LocalName provides name) {
+        User()
+    }
+}
+
+@Composable
+fun User() {
+    Text(text = LocalName.current)
+}

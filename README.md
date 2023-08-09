@@ -4,7 +4,9 @@
 
 #### Compose(multi-platform) Canvas 绘制
 
-### 布局转化
+---
+
+### 布局转化参考
 
 - FrameLayout、RelativeLayout -> Box
 - LinearLayout -> Column、Row
@@ -34,6 +36,10 @@
 面相切面编程(AOP) 常见两种方式实现 1.Annotation Processor 注解处理器 2.修改字节码
 
 @Composable - 识别符 使用的是编译器插件 Compiler Plugin
+
+---
+
+#  状态订阅和自动更新
 
 ### MutableState 可变可被订阅
 
@@ -142,4 +148,34 @@ by mutableStateOf() 所代理的对象，用两种方式都行
 
 当一个状态对象作为参数时，既要使用 remember 也要使用 derivedStateOf，来保证既 对象地址变化
 时可以被监听，也保证内部属性变化时，可以被监听。
+
+### CompositionLocal (Composition 局部变量)
+
+共识：创建成一个「不怕影响到更大范围」的对象
+
+场景：上下文 / 环境 / 主题
+
+LocalContext.current
+
+**参数列表**是**由内向外**的需求，**CompositionLocal**是**由外向内**的提供
+
+不一定两种方式一定要二选其一，参考Text
+
+```Kotlin
+val textColor = color.takeOrElse {
+    style.color.takeOrElse {
+        LocalContentColor.current
+    }
+}
+```
+
+### StaticCompositionLocal
+
+不会记录state、 当数据变化时，全量更新
+
+数据经常刷新使用 CompositionLocal 精准刷新，不经常刷新使用 StaticCompositionLocal
+
+--- 
+
+
 
