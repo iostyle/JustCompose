@@ -39,7 +39,7 @@
 
 ---
 
-#  状态订阅和自动更新
+#  状态订阅和自动更新 😁
 
 ### MutableState 可变可被订阅
 
@@ -177,5 +177,11 @@ val textColor = color.takeOrElse {
 
 --- 
 
+# 动画 😎
+
+## 状态转移型动画 animateXxxAsState()
+
+## LaunchedEffect
+Compose 中使用协程，recompose时，参数列表的值没有发生变化则跳过，发生变化则重启
 
 
