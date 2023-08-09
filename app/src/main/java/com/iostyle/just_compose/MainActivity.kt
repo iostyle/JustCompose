@@ -11,10 +11,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,11 +32,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import com.iostyle.just_compose.ui.theme.JustComposeTheme
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -369,7 +372,7 @@ class User(name: String) {
     var name by mutableStateOf(name)
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
 @Composable
 fun RecomposePreview() {
     Column {
@@ -419,3 +422,169 @@ fun Heavy(user: User) {
     println("Heavy")
     Text(text = "Heavy ${user.name}")
 }
+
+
+// ------------------------------  Derived  -------------------------------------
+
+
+/**
+ * highPriorityKeywords 可以为状态对象，可以被监听
+ */
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+@Composable
+fun DerivedPreview(highPriorityKeywords: List<String> = listOf("Preview", "Todo", "Fix")) {
+    val todoTasks =
+        remember { mutableStateListOf<String>("Preview Layout", "Do Something", "Fix Bug") }
+//    todoTasks.addAll(listOf("Preview Layout", "Do Something", "Fix Bug"))
+
+    // remember 是为了防止recompose重复初始化
+    val highPriorityTasks by remember(highPriorityKeywords) {
+        // derivedStateOf 括号里的状态对象变化时，括号内的代码被触发，同时重新为by remember赋值
+        derivedStateOf {
+            todoTasks.filter {
+                it.containsWord(highPriorityKeywords)
+            }
+        }
+    }
+
+    val highPriorityTasks2 = remember(highPriorityKeywords, todoTasks) {
+        todoTasks.filter { it.containsWord(highPriorityKeywords) }
+    }
+
+    Column {
+        LazyColumn(Modifier.background(Color.Red)) {
+            items(highPriorityTasks) { task ->
+                Text(text = task)
+            }
+        }
+        LazyColumn(Modifier.background(Color.Blue)) {
+            items(highPriorityTasks2) { task ->
+                Text(text = task)
+            }
+        }
+        LazyColumn(Modifier.background(Color.Gray)) {
+            items(todoTasks) { task ->
+                Text(text = task)
+            }
+        }
+        var content by remember {
+            mutableStateOf("")
+        }
+        TextField(value = content, onValueChange = {
+            content = it
+        })
+
+        Button(onClick = {
+            todoTasks.add(content)
+        }) {
+            Text(text = "Add")
+        }
+    }
+}
+
+private fun String.containsWord(highPriorityKeywords: List<String>): Boolean {
+    highPriorityKeywords.forEach {
+        if (this.contains(it)) {
+            return true
+        }
+    }
+    return false
+}
+
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+@Composable
+fun DerivedStatePreview() {
+//    var name by remember { mutableStateOf("name") }
+//    val processedName by remember {
+//        derivedStateOf { name.uppercase(Locale.ROOT) }
+//    }
+//    val processedName2 = remember(name) {
+//        name.uppercase(Locale.ROOT)
+//    }
+//    Column(Modifier.clickable { name = "Test" }) {
+//        Text(text = processedName)
+//        Text(text = processedName2)
+//    }
+
+    val names = remember { mutableStateListOf("name1", "name2", "name3") }
+    // names指向同一个对象，所以recompose会被跳过
+//    val processNames = remember(names) {
+//        names.map { it.uppercase(Locale.ROOT) }
+//    }
+    val processNames by remember {
+        derivedStateOf {
+            names.map { it.uppercase(Locale.ROOT) }
+        }
+    }
+
+    LazyColumn(Modifier.clickable { names.add("name4") }) {
+        items(names) { name ->
+            Text(text = name)
+        }
+        items(processNames) { name ->
+            Text(text = name)
+        }
+    }
+
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode")
+@Composable
+fun TestDerivedState() {
+    var name by remember { mutableStateOf("init") }
+    var stateName = remember { mutableStateOf("init") }
+
+    var names = remember {
+        mutableStateListOf("name1", "name2", "name3")
+    }
+    Column(Modifier.fillMaxWidth()) {
+        TestDerived(name) {
+            name = "changed"
+        }
+        TestDerived(stateName) {
+            stateName.value = "changed"
+        }
+        TestDerived(names) {
+            names.add("name4")
+        }
+    }
+}
+
+@Composable
+fun TestDerived(name: String, onClick: () -> Unit) {
+//    val processedName by remember { derivedStateOf { name.uppercase(Locale.ROOT) } }
+    // 推荐写法*
+    val processedName = remember(name) { name.uppercase(Locale.ROOT) }
+//    val processedName by remember(name) { derivedStateOf { name.uppercase(Locale.ROOT) } }
+    Text(text = processedName, Modifier.clickable { onClick() })
+}
+
+@Composable
+fun TestDerived(name: State<String>, onClick: () -> Unit) {
+    val processedName by remember { derivedStateOf { name.value.uppercase(Locale.ROOT) } }
+    // 不生效
+//    val processedName = remember(name) { name.value.uppercase(Locale.ROOT) }
+//    val processedName by remember(name) { derivedStateOf { name.value.uppercase(Locale.ROOT) } }
+    Text(text = processedName, Modifier.clickable { onClick() })
+}
+
+@Composable
+fun TestDerived(names: List<String>, onClick: () -> Unit) {
+//    val processedNames by remember { derivedStateOf { names.map { it.uppercase(Locale.ROOT) } } }
+    // 不生效
+//    val processedNames = remember(names) { names.map { it.uppercase(Locale.ROOT) } }
+//    val processedNames = remember(names) { derivedStateOf { names.map { it.uppercase(Locale.ROOT) } } }
+    // 推荐写法*
+    val processedNames by remember(names) { derivedStateOf { names.map { it.uppercase(Locale.ROOT) } } }
+
+    LazyColumn(Modifier.clickable { onClick() }) {
+        items(processedNames) { name ->
+            Text(text = name)
+        }
+    }
+}
+
+
+// ------------------------------  Derived ⬆️  -------------------------------------
+
+

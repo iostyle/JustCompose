@@ -55,7 +55,7 @@ readable() 遍历 StateRecord 链表，找到一个最新的、可用的 StateRe
 
 ## remember: 起到缓存作用，防止多次初始化，用在重组作用域中防止被重复初始化
 
-remember(key ...) 根据key是否相同来决定是否使用缓存记录
+remember(key ...) 根据key是否相同（地址）来决定是否使用缓存记录
 相当于 DataBinding中 的 ObservableField(any ...)
 
 ### Compose: Stateless 无状态 (非功能，是特点)
@@ -94,14 +94,15 @@ Compose ：自动更新 -> 「更新范围过大、超过需求」 -> 「跳过�
 ## @Stable 标记为可靠的/稳定的
 
 1. The result of equals will always return the same result for the same two instances.
+
+   现在相等就永远相等
 2. When a public property of the type changes, composition will be notified.
+
+   当公开属性改变的时候，通知到用到这个属性的 Composition (如果所有属性都是mutableState的，compose
+   自动认定为是可靠的对象)
 3. All public property types are stable.
 
-
-1. 现在相等就永远相等
-2. 当公开属性改变的时候，通知到用到这个属性的 Composition (如果所有属性都是mutableState的，compose
-   自动认定为是可靠的对象)
-3. 所有公开属性都是Stable的
+   所有公开属性都是Stable的
 
 Compose 只能做到判断第二条
 
@@ -113,7 +114,32 @@ Int Float Boolean 等基本类型和 String 都是 Stable 的
 class User(name: String) {
     val name by mutableStateOf(name)
 }
-
 ```
 
 ### @Immutable 标记为不可变的，在 Compose 中，与 @Stable 效果相同
+
+## **derivedStateOf
+
+### remember(参数) 判断的是参数的地址是否发生变化
+
+这里要注意，如果参数是基本数据类型，则数据变化时，地址也发生变化，所以监听可以被触发；
+但如果监听的是 list 等，常规的增删并不会导致内存地址的变化，所以监听不会被触发，recompose 会被跳过。
+所以如果监听这种 state 变化，使用 derivedStateOf {}
+
+1. 监听状态变化从而自动刷新，有两种写法：带参数的remember(); 不带参数的 remember() + {
+   derivedStateOf{} }
+2. 对于状态对象来说（mutableStateListOf、mutableStateOf），带参数的 remember() 不能使用，所以只能使用
+   derivedStateOf
+3. 对于函数参数里的字符串(基础数据类型)，监听链条会被掐断，所以不能用 derivedStateOf()，而只能用带参数的
+   remember()
+
+带参数的 remember() 可以判断对象的重新赋值，而 derivedStateOf() 不能完美做到，所以带参数的 remember()
+适用于函数参数的监听
+
+derivedStateOf() 适用于 **状态对象** 的监听
+
+by mutableStateOf() 所代理的对象，用两种方式都行
+
+当一个状态对象作为参数时，既要使用 remember 也要使用 derivedStateOf，来保证既 对象地址变化
+时可以被监听，也保证内部属性变化时，可以被监听。
+
