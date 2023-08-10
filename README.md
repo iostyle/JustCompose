@@ -39,7 +39,7 @@
 
 ---
 
-#  状态订阅和自动更新 😁
+# 状态订阅和自动更新 😁
 
 ### MutableState 可变可被订阅
 
@@ -179,9 +179,46 @@ val textColor = color.takeOrElse {
 
 # 动画 😎
 
-## 状态转移型动画 animateXxxAsState()
+### 状态转移型动画 animateXxxAsState()
 
-## LaunchedEffect
+### LaunchedEffect
+
 Compose 中使用协程，recompose时，参数列表的值没有发生变化则跳过，发生变化则重启
 
+## AnimationSpec
+
+- spring 弹性
+- tween 补间
+- snap 切换
+- keyFrame 关键帧
+- repeatable 重复动画
+
+#### easing 缓动 也可以理解为插值器
+
+- LinearEasing 线性
+- FastOutSlowInEasing 先加速再减速
+- LinearOutSlowInEasing 匀速然后减速
+- FastOutLinearInEasing 持续加速
+
+#### spring： dampingRatio 阻尼比  stiffness 刚度  visibilityThreshold 可见性阈值
+
+---
+
+### animateDecay: 惯性衰减，消散型动画
+
+#### rememberSplineBasedDecay 样条衰减
+
+与 Android 自带滑动惯性相同, 像素密度越大，摩擦力越大，更快停止
+
+只能面向像素来使用，否则会受dpi影响导致摩擦力不同
+
+#### exponentialDecay 指数衰减
+
+面向dp 使用指数衰减
+
+frictionMultiplier 摩擦系数
+
+absVelocityThreshold ABS速度阈值 与 spring visibilityThreshold 类似，达到阈值停止
+
+---
 
