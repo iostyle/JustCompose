@@ -222,3 +222,32 @@ absVelocityThreshold ABS速度阈值 与 spring visibilityThreshold 类似，达
 
 ---
 
+### 动画执行过程中会被打断，抛出 CancellationException 异常
+
+达到边界被结束的动画不会抛出 CancellationException 异常，
+
+AnimationResult endReason ：BoundReached / Finished
+
+### 执行动画方法均为 suspend 
+
+---
+
+### Transition 转场动画
+
+多属性动画，同一协程统一管理
+
+支持 Animation Preview
+
+### TransitionSpec
+
+### AnimatedVisibility 显示和消失的动画
+
+- fade 渐变
+- slide 滑动
+- scale 缩放
+- expand 扩张
+- shrink 收缩
+
+### CrossFade 页面交叉切换淡入淡出
+
+### AnimatedContent 
