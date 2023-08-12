@@ -1,5 +1,7 @@
 # JustCompose
 
+## schedule 🔋（30/67）
+
 #### Flutter(cross-platform) NDK Skia 绘制
 
 #### Compose(multi-platform) Canvas 绘制
@@ -251,3 +253,13 @@ AnimationResult endReason ：BoundReached / Finished
 ### CrossFade 页面交叉切换淡入淡出
 
 ### AnimatedContent 
+
+---
+
+## Modifier
+
+companion object : Modifier 伴生对象返回本身的话，代码里可以直接使用接口名即是实现了接口的单例对象
+
+### Element
+
+
