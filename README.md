@@ -1,6 +1,6 @@
 # JustCompose
 
-## schedule 🔋（30/67）
+## schedule 🔋
 
 #### Flutter(cross-platform) NDK Skia 绘制
 
@@ -183,10 +183,6 @@ val textColor = color.takeOrElse {
 
 ### 状态转移型动画 animateXxxAsState()
 
-### LaunchedEffect
-
-Compose 中使用协程，recompose时，参数列表的值没有发生变化则跳过，发生变化则重启
-
 ## AnimationSpec
 
 - spring 弹性
@@ -230,7 +226,7 @@ absVelocityThreshold ABS速度阈值 与 spring visibilityThreshold 类似，达
 
 AnimationResult endReason ：BoundReached / Finished
 
-### 执行动画方法均为 suspend 
+### 执行动画方法均为 suspend
 
 ---
 
@@ -252,7 +248,7 @@ AnimationResult endReason ：BoundReached / Finished
 
 ### CrossFade 页面交叉切换淡入淡出
 
-### AnimatedContent 
+### AnimatedContent
 
 ---
 
@@ -261,5 +257,35 @@ AnimationResult endReason ：BoundReached / Finished
 companion object : Modifier 伴生对象返回本身的话，代码里可以直接使用接口名即是实现了接口的单例对象
 
 ### Element
+
+placeRelative 相较于 place， 自适应RTL
+
+// TODO
+
+---
+
+## 附带效应
+
+Recompose 因为优化，调用时机是不可预期的
+
+### SideEffect
+
+如需与非 Compose 管理的对象共享 Compose 状态，使用 SideEffect 可组合项，因为每次成功重组时都会调用该可组合项。
+
+### DisposableEffect
+
+对于需要在键发生变化或可组合项退出组合后进行清理的附带效应，使用 DisposableEffect。如果
+DisposableEffect 键发生变化，可组合项需要处理（执行清理操作）其当前效应，并通过再次调用效应进行重置。
+
+例如，您可能需要使用 LifecycleObserver，根据 Lifecycle 事件发送分析事件。如需在 Compose 中监听这些事件，请根据需要使用
+DisposableEffect 注册和取消注册观察器。
+
+### LaunchedEffect
+
+(Compose 中使用协程，recompose时，参数列表的值没有发生变化则跳过，发生变化则重启)
+
+如需从可组合项内安全调用挂起函数，使用 LaunchedEffect 可组合项。当 LaunchedEffect
+进入组合时，它会启动一个协程，并将代码块作为参数传递。如果 LaunchedEffect 退出组合，协程将取消。如果使用不同的键重组
+LaunchedEffect（请参阅下方的重启效应部分），系统将取消现有协程，并在新的协程中启动新的挂起函数。
 
 

@@ -17,6 +17,9 @@ import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
+import kotlin.math.max
+import kotlin.math.min
 
 interface TestInterface {
 
@@ -61,23 +64,34 @@ fun LayoutPreview() {
     Box(
         modifier = Modifier
             .background(Color.Gray)
-            .fillMaxWidth()
     ) {
-        Text(text = "Test",
+        // Layout 适用于外部尺寸、位置装饰
+        Text(text = "Test Long",
             // 对自身测量出的尺寸和位置进行修改的功能
             Modifier.layout { measurable, constraints ->
                 // ** 测量
                 val placeable = measurable.measure(constraints)
                 // ** 保存测量结果
-                layout(placeable.width, placeable.height) {
-                    // ** 位置修改 只是修改自身，不能精确布局每一个子view，后续需要使用Layout
-                    placeable.placeRelative(0, 0)
+//                layout(placeable.width, placeable.height) {
+//                    // ** 位置修改 只是修改自身，不能精确布局每一个子view，后续需要使用Layout
+//                    placeable.placeRelative(0, 0)
+//                }
+
+                val size = max(placeable.width, placeable.height)
+                layout(size, size) {
+                    // placeRelative 相较于 place， 自适应RTL
+                    placeable.placeRelative(10.dp.roundToPx(), 30)
                 }
             }
         )
     }
 
 }
+
+// TODO DrawModifier
+
+// TODO PointerInputModifier
+
 
 
 
