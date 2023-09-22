@@ -1,7 +1,5 @@
 # JustCompose
 
-## schedule 🔋
-
 #### Flutter(cross-platform) NDK Skia 绘制
 
 #### Compose(multi-platform) Canvas 绘制
