@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <uses-permission android:name="android.permission.INTERNET" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".application.OilApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="false"
-        android:theme="@style/Theme.JustCompose"
-        tools:targetApi="31">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.JustCompose">
         <activity
-            android:name=".RefreshActivity"
+            android:name=".ui.activity.OilHomeActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.JustCompose">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

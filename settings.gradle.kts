@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "JustCompose"
 include(":app")
- 
+include(":compoil")
