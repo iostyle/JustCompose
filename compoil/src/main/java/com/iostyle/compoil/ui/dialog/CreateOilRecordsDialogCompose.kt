@@ -10,12 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentManager
-import com.iostyle.compoil.R
 import com.iostyle.compoil.ui.dialog.base.BaseBottomDialogCompose
+import com.iostyle.compoil.ui.theme.Text
+import com.iostyle.compoil.ui.theme.color
 
 class CreateOilRecordsDialogCompose : BaseBottomDialogCompose() {
 
@@ -44,7 +44,7 @@ class CreateOilRecordsDialogCompose : BaseBottomDialogCompose() {
 //                )
                 .padding(10.dp, 20.dp, 10.dp, 10.dp)
         ) {
-            Text(text = "OK")
+            Text(text = "OK", color = Text.color)
             Text(text = "CreateOilRecordsDialogCompose", color = MaterialTheme.colorScheme.onSurface)
         }
     }
