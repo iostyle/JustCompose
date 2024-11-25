@@ -1,9 +1,9 @@
 package com.iostyle.compoil.ui.activity
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -34,12 +34,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.iostyle.compoil.bean.Records
+import com.iostyle.compoil.ui.dialog.CreateOilRecordsDialogCompose
 import com.iostyle.compoil.ui.theme.JustComposeTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class OilHomeActivity : ComponentActivity() {
+class OilHomeActivity : AppCompatActivity() {
 
     private val recordsList: MutableList<Records> by lazy { mutableListOf() }
 
@@ -51,7 +52,6 @@ class OilHomeActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box {
                         PullRefreshIndicatorView(modifier = Modifier.padding(innerPadding))
-//                        FloatAddRecordsButton(modifier = Modifier.padding(innerPadding))
                     }
                 }
             }
@@ -133,7 +133,10 @@ class OilHomeActivity : ComponentActivity() {
                     }
                 },
                 dismissButton = {
-                    Button(onClick = { show = false }) {
+                    Button(onClick = {
+                        CreateOilRecordsDialogCompose.show(supportFragmentManager)
+                        show = false
+                    }) {
                         Text(text = "Dismiss")
                     }
                 },

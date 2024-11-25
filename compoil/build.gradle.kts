@@ -34,6 +34,9 @@ android {
     buildFeatures {
         compose = true
     }
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {
