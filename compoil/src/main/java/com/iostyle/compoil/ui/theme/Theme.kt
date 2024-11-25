@@ -1,6 +1,5 @@
 package com.iostyle.compoil.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -33,9 +32,31 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+enum class Theme {
+    THEME_MODE_SYSTEM,
+    THEME_MODE_LIGHT,
+    THEME_MODE_DARK
+}
+
+// TODO cache & setting
+var currentThemeMode: Theme = Theme.THEME_MODE_SYSTEM
+
 @Composable
 fun JustComposeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean =
+        when (currentThemeMode) {
+            Theme.THEME_MODE_SYSTEM -> {
+                isSystemInDarkTheme()
+            }
+
+            Theme.THEME_MODE_LIGHT -> {
+                false
+            }
+
+            Theme.THEME_MODE_DARK -> {
+                true
+            }
+        },
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
