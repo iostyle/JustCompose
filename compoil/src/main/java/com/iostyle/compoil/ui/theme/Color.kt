@@ -34,6 +34,16 @@ val Pair<Color, Color>.color: Color
         return this.get()
     }
 
+@Composable
+fun Long.get(): Color {
+    return Color(this)
+}
+
+val Long.color: Color
+    @Composable get() {
+        return this.get()
+    }
+
 private infix fun Long.x(dark: Long): Pair<Color, Color> {
     return Pair(Color(this), Color(dark))
 }
@@ -44,4 +54,7 @@ private infix fun Long.x(dark: Long): Pair<Color, Color> {
  */
 
 val Text = 0xFF000000 x 0xFFFFFFFF
+
+val TiktokCyan = 0xFF24f4ee
+val TiktokRed = 0xFFfe1955
 
