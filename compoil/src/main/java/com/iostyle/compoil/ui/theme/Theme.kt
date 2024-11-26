@@ -1,6 +1,7 @@
 package com.iostyle.compoil.ui.theme
 
 import android.os.Build
+import android.os.Parcelable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -9,6 +10,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.parcelize.Parcelize
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -22,19 +24,20 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Pink40
 )
 
-enum class Theme {
+@Parcelize
+enum class Theme : Parcelable {
     THEME_MODE_SYSTEM,
     THEME_MODE_LIGHT,
     THEME_MODE_DARK
 }
 
-// TODO cache & setting
-var currentThemeMode: Theme = Theme.THEME_MODE_SYSTEM
+// TODO setting
+var currentThemeMode: Theme? = null
 
 @Composable
 fun isInDarkTheme(): Boolean {
     return when (currentThemeMode) {
-        Theme.THEME_MODE_SYSTEM -> {
+        null, Theme.THEME_MODE_SYSTEM -> {
             isSystemInDarkTheme()
         }
 
