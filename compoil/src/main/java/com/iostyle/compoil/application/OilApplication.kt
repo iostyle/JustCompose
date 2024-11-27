@@ -4,13 +4,23 @@ import android.app.Application
 import com.iostyle.compoil.ui.theme.Theme
 import com.iostyle.compoil.ui.theme.currentThemeMode
 import com.tencent.mmkv.MMKV
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.logger.AndroidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class OilApplication : Application() {
 
+    companion object {
+        lateinit var instance: OilApplication
+    }
+
     override fun onCreate() {
         super.onCreate()
+        instance = this
         initMMKV()
         initTheme()
+        initKoin()
     }
 
     private fun initMMKV() {
@@ -21,6 +31,14 @@ class OilApplication : Application() {
 
     private fun initTheme() {
         currentThemeMode = MMKV.defaultMMKV().decodeParcelable("mmkv_theme", Theme::class.java)
+    }
+
+    private fun initKoin() {
+        startKoin {
+            AndroidLogger(level = Level.DEBUG)
+            androidContext(this@OilApplication)
+            modules(appModule)
+        }
     }
 
 }

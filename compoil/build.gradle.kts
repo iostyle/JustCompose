@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kapt)
+
+    // hilt
+//    alias(libs.plugins.hilt)
 }
 
 android {
@@ -60,6 +64,7 @@ dependencies {
 
     implementation(libs.androidx.material)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.compose)
@@ -68,4 +73,13 @@ dependencies {
 
     implementation(libs.mmkv)
 
+    // hilt
+//    implementation(libs.hilt)
+//    kapt(libs.hilt.compile)
+
+    // koin
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.compose.viewmodel.navigation)
 }

@@ -5,14 +5,17 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.6"
+lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.10.00"
+composeBom = "2024.11.00"
 appcompat = "1.7.0"
-constraintlayout-compose = "1.0.1"
+constraintlayout-compose = "1.1.0"
 coilCompose = "2.4.0"
 immersionbar = "3.2.2"
 mmkv = "2.0.1"
+lifecycleViewmodel = "2.8.7"
+hilt = "2.51.1"
+koin-compose = "4.1.0-Beta1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,10 +39,19 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 immersionbar = { module = "com.geyifeng.immersionbar:immersionbar", version.ref = "immersionbar" }
 immersionbar-ktx = { module = "com.geyifeng.immersionbar:immersionbar-ktx", version.ref = "immersionbar" }
 mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodel" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compile = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+koin-compose = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
+koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation", version.ref = "koin-compose" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "kotlin-parcelize" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kapt = { id = "kotlin-kapt" }
 
