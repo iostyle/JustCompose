@@ -1,0 +1,1 @@
+- Composable 禁止持有 ViewModel ，会导致内存泄露 

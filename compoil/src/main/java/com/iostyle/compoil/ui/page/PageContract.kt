@@ -2,18 +2,16 @@ package com.iostyle.compoil.ui.page
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.fragment.app.FragmentManager
-import com.iostyle.compoil.bean.Records
+import com.iostyle.compoil.data.Records
+import com.iostyle.compoil.data.getCacheRecords
 
 
 /**
  * UI State that represents PageScreen
  **/
 data class PageState(
-//    val pageItems: MutableList<Records> = mutableListOf(),
-    val pageItems: MutableList<Records> = mutableListOf(
-        Records(System.currentTimeMillis(), 1234, 8.8f),
-        Records(System.currentTimeMillis(), 1334, 9.8f),
-    ),
+    val pageItems: MutableList<Records> = mutableListOf(),
+    var isRefreshing: Boolean = false
 )
 
 /**
@@ -21,7 +19,7 @@ data class PageState(
  * passed to the coordinator to handle
  **/
 data class PageActions(
-    val onRefresh: suspend () -> Unit = {},
+    val onRefresh: () -> Unit = {},
     val onFloatingButtonClick: (fragmentManager: FragmentManager) -> Unit = {},
 )
 

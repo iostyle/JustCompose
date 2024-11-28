@@ -14,15 +14,13 @@ class PageCoordinator(
 ) {
     val screenStateFlow = viewModel.stateFlow
 
-
-    suspend fun handleRefresh() {
+    fun handleRefresh() {
         viewModel.refreshPage()
     }
 
     fun handleFloatingButtonClick(fragmentManager: FragmentManager) {
         viewModel.floatingButtonClick(fragmentManager)
     }
-
 
 }
 

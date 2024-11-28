@@ -21,13 +21,18 @@ fun PageScreen(
         floatingActionButton = { FloatingButton(state = state, actions = actions) },
         floatingActionButtonPosition = FabPosition.EndOverlay
     ) { innerPadding ->
-        PullRefreshIndicatorView(modifier = Modifier.padding(innerPadding), state = state, actions = actions)
+        PullRefreshIndicatorView(
+            modifier = Modifier.padding(innerPadding),
+            dataList = state.pageItems,
+            isRefreshing = state.isRefreshing,
+            refresh = actions.onRefresh
+        )
     }
 }
 
 @Composable
-@Preview(name = "Page",showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(name = "Page",showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Page", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Page", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 private fun PageScreenPreview(
     @PreviewParameter(PageStatePreviewParameterProvider::class)
     state: PageState

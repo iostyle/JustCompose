@@ -4,21 +4,16 @@ import android.content.DialogInterface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,10 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
-import com.iostyle.compoil.bean.Records
 import com.iostyle.compoil.ui.dialog.base.BaseBottomDialogCompose
 import com.iostyle.compoil.ui.theme.Text
-import com.iostyle.compoil.ui.theme.TiktokCyan
 import com.iostyle.compoil.ui.theme.color
 import java.util.regex.Pattern
 
@@ -94,7 +87,7 @@ class CreateOilRecordsDialog : BaseBottomDialogCompose() {
                         placeholder = { Text(text = "请输入当前里程（单位公里km）", fontSize = 14.sp) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Done
+                            imeAction = ImeAction.Next
                         ),
                         visualTransformation = NumberFilterTransformation(),
                     )
