@@ -21,7 +21,6 @@ class PageCoordinator(
     fun handleFloatingButtonClick(fragmentManager: FragmentManager) {
         viewModel.floatingButtonClick(fragmentManager)
     }
-
 }
 
 @Composable
