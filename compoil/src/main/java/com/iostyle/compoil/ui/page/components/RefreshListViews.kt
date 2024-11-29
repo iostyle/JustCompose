@@ -27,6 +27,10 @@ import androidx.compose.ui.unit.sp
 import com.iostyle.compoil.data.Records
 import com.iostyle.compoil.ui.page.ItemPreview
 import com.iostyle.compoil.ui.page.ListViewPreviewParameterProvider
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -91,9 +95,22 @@ fun OilItemView(modifier: Modifier, item: Records, lastItem: Records? = null, de
                     fontSize = 13.sp
                 )
             }
+            Text(
+                modifier = Modifier.align(Alignment.TopEnd),
+                text = formatTimestamp(item.timestamp),
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                fontSize = 13.sp
+            )
         }
 
     }
+}
+
+fun formatTimestamp(timestamp: Long): String {
+    val instant = Instant.ofEpochMilli(timestamp)
+    val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+    val formatter = DateTimeFormatter.ofPattern("yy/MM/dd EEEE", Locale.current.platformLocale)
+    return localDateTime.format(formatter)
 }
 
 @Preview
