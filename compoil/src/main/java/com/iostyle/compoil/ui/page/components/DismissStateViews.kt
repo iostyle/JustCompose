@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
@@ -26,14 +26,12 @@ fun SwipeToDismissItem(onDismiss: @Composable () -> Unit, backgroundContent: @Co
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(15.dp),
+                    .padding(0.dp, 0.dp, 20.dp, 0.dp),
                 contentAlignment = Alignment.CenterEnd
             ) {
-                Image(painter = painterResource(R.drawable.ic_remove), contentDescription = "Remove")
+                Image(modifier = Modifier.size(30.dp), painter = painterResource(R.drawable.ic_remove), contentDescription = "Remove")
             }
-        }, Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.inverseOnSurface),
+        }, Modifier.fillMaxWidth(),
         enableDismissFromStartToEnd = false
     )
     {

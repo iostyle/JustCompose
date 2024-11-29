@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -18,14 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.iostyle.compoil.data.Records
 import com.iostyle.compoil.ui.page.ItemPreview
 import com.iostyle.compoil.ui.page.ListViewPreviewParameterProvider
-import com.iostyle.compoil.ui.theme.Text
-import com.iostyle.compoil.ui.theme.color
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -47,7 +48,13 @@ fun PullRefreshIndicatorView(
     Box(modifier.pullRefresh(refreshState)) {
         LazyColumn(Modifier.fillMaxSize(), state = dataListLazySate) {
             items(dataList, key = { it.timestamp }) { item ->
-                OilItemView(item, delete)
+                val index = dataList.indexOf(item)
+                OilItemView(
+                    Modifier.padding(0.dp, if (index == 0) 10.dp else 0.dp, 0.dp, if (index == dataList.size - 1) 10.dp else 0.dp),
+                    item,
+                    if (index > 0) dataList[index - 1] else null,
+                    delete
+                )
             }
         }
 
@@ -56,19 +63,36 @@ fun PullRefreshIndicatorView(
 }
 
 @Composable
-fun OilItemView(item: Records, delete: (Records) -> Unit) {
+fun OilItemView(modifier: Modifier, item: Records, lastItem: Records? = null, delete: (Records) -> Unit) {
     SwipeToDismissItem({
         delete(item)
     }) {
-        Text(
-            text = "当前里程:${item.currentMileage}\n本次加油量:${item.oilInjection}", color = Text.color,
-            modifier = Modifier
+        Box(
+            modifier = modifier
                 .fillMaxWidth()
-                .background(
-                    MaterialTheme.colorScheme.surface
-                )
                 .padding(5.dp)
-        )
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(15.dp)
+                )
+                .padding(10.dp)
+        ) {
+            Text(
+                text = "里程: ${item.currentMileage} 公里\n加油量: ${item.oilInjection} 升",
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                fontSize = 13.sp
+            )
+            lastItem?.let {
+                val oil = it.oilInjection / (item.currentMileage - it.currentMileage) * 100f
+                val formattedOil = String.format(Locale.current.platformLocale, "%.2f", oil)
+                Text(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    text = "油耗: $formattedOil 升/百公里", color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    fontSize = 13.sp
+                )
+            }
+        }
+
     }
 }
 
@@ -77,7 +101,8 @@ fun OilItemView(item: Records, delete: (Records) -> Unit) {
 fun OilItemViewPreview(@PreviewParameter(ListViewPreviewParameterProvider::class) parameterProvider: ItemPreview) {
     LazyColumn {
         items(parameterProvider.records, key = { it.timestamp }) { item ->
-            OilItemView(item, parameterProvider.delete)
+            val index = parameterProvider.records.indexOf(item)
+            OilItemView(Modifier, item, if (index > 0) parameterProvider.records[index - 1] else null, parameterProvider.delete)
         }
     }
 }
