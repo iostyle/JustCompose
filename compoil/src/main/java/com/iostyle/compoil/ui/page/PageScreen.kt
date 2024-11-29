@@ -10,6 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.iostyle.compoil.ui.page.components.FloatingButton
 import com.iostyle.compoil.ui.page.components.PullRefreshIndicatorView
+import com.iostyle.compoil.ui.page.components.TopBar
+import com.iostyle.compoil.ui.theme.JustComposeTheme
 
 @Composable
 fun PageScreen(
@@ -18,6 +20,7 @@ fun PageScreen(
 ) {
     Scaffold(
         modifier = Modifier,
+        topBar = { TopBar() },
         floatingActionButton = { FloatingButton(state = state, actions = actions) },
         floatingActionButtonPosition = FabPosition.EndOverlay
     ) { innerPadding ->
@@ -33,13 +36,15 @@ fun PageScreen(
 
 @Composable
 @Preview(name = "Page", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(name = "Page", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(name = "Page", showSystemUi = true)
 private fun PageScreenPreview(
     @PreviewParameter(PageStatePreviewParameterProvider::class)
     state: PageState
 ) {
-    PageScreen(
-        state = state,
-        actions = PageActions()
-    )
+    JustComposeTheme {
+        PageScreen(
+            state = state,
+            actions = PageActions()
+        )
+    }
 }

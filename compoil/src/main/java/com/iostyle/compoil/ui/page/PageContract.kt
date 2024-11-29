@@ -31,6 +31,18 @@ data class PageActions(
 class PageStatePreviewParameterProvider : PreviewParameterProvider<PageState> {
     override val values: Sequence<PageState>
         get() = sequenceOf(
+            PageState(mutableListOf(Records(0, 1156, 5.64f), Records(1, 1327, 8.79f)), isRefreshing = false)
+        )
+}
 
+data class ItemPreview(
+    val records: MutableList<Records>,
+    val delete: (Records) -> Unit
+)
+
+class ListViewPreviewParameterProvider : PreviewParameterProvider<ItemPreview> {
+    override val values: Sequence<ItemPreview>
+        get() = sequenceOf(
+            ItemPreview(mutableListOf(Records(0, 1156, 5.64f), Records(1, 1327, 8.79f)), {})
         )
 }
