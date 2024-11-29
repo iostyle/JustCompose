@@ -30,7 +30,7 @@ class OilApplication : Application() {
     }
 
     private fun initTheme() {
-        currentThemeMode = MMKV.defaultMMKV().decodeParcelable("mmkv_theme", Theme::class.java)
+        if (currentThemeMode == null) currentThemeMode = MMKV.defaultMMKV().decodeParcelable("mmkv_theme", Theme::class.java)
     }
 
     private fun initKoin() {

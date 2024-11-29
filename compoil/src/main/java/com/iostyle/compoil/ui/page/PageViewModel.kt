@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iostyle.compoil.data.Records
 import com.iostyle.compoil.data.addNewRecords
+import com.iostyle.compoil.data.deleteRecords
 import com.iostyle.compoil.data.getCacheRecords
 import com.iostyle.compoil.ui.dialog.CreateOilRecordsDialog
 import com.iostyle.compoil.ui.dialog.CreateOilRecordsDialog.ICreateOilRecords
@@ -37,6 +38,18 @@ class PageViewModel(
             _stateFlow.update {
                 it.copy(
                     isRefreshing = false,
+                    pageItems = data
+                )
+            }
+        }
+    }
+
+    fun deleteItem(records: Records) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteRecords(records)
+            val data = getCacheRecords()
+            _stateFlow.update {
+                it.copy(
                     pageItems = data
                 )
             }

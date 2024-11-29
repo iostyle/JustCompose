@@ -3,6 +3,7 @@ package com.iostyle.compoil.ui.page
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.fragment.app.FragmentManager
+import com.iostyle.compoil.data.Records
 import org.koin.androidx.compose.koinViewModel
 
 /**
@@ -16,6 +17,10 @@ class PageCoordinator(
 
     fun handleRefresh() {
         viewModel.refreshPage()
+    }
+
+    fun handleDelete(records: Records) {
+        viewModel.deleteItem(records)
     }
 
     fun handleFloatingButtonClick(fragmentManager: FragmentManager) {

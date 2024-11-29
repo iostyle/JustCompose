@@ -62,3 +62,7 @@ suspend fun getCacheRecords(): MutableList<Records> {
 suspend fun addNewRecords(records: Records) {
     RecordsDatabase.get(OilApplication.instance).recordsDao().insertRecords(records)
 }
+
+suspend fun deleteRecords(records: Records) {
+    RecordsDatabase.get(OilApplication.instance).recordsDao().deleteRecords(records)
+}

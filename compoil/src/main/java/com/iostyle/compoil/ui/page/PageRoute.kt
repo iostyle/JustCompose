@@ -25,6 +25,7 @@ fun rememberPageActions(coordinator: PageCoordinator): PageActions {
     return remember(coordinator) {
         PageActions(
             onRefresh = coordinator::handleRefresh,
+            onDelete = coordinator::handleDelete,
             onFloatingButtonClick = coordinator::handleFloatingButtonClick,
         )
     }

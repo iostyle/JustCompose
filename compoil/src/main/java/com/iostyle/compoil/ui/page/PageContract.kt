@@ -20,6 +20,7 @@ data class PageState(
  **/
 data class PageActions(
     val onRefresh: () -> Unit = {},
+    val onDelete: (Records) -> Unit = {},
     val onFloatingButtonClick: (fragmentManager: FragmentManager) -> Unit = {},
 )
 

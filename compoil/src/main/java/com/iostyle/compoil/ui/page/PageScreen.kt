@@ -25,7 +25,8 @@ fun PageScreen(
             modifier = Modifier.padding(innerPadding),
             dataList = state.pageItems,
             isRefreshing = state.isRefreshing,
-            refresh = actions.onRefresh
+            refresh = actions.onRefresh,
+            delete = actions.onDelete
         )
     }
 }
