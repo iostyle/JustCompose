@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.iostyle.compoil"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.iostyle.compoil"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
