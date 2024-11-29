@@ -2,13 +2,11 @@ package com.iostyle.compoil.ui.page
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.iostyle.compoil.ui.page.components.FloatingButton
 import com.iostyle.compoil.ui.page.components.PullRefreshIndicatorView
 import com.iostyle.compoil.ui.page.components.TopBar
 import com.iostyle.compoil.ui.theme.JustComposeTheme
@@ -20,9 +18,7 @@ fun PageScreen(
 ) {
     Scaffold(
         modifier = Modifier,
-        topBar = { TopBar() },
-        floatingActionButton = { FloatingButton(state = state, actions = actions) },
-        floatingActionButtonPosition = FabPosition.EndOverlay
+        topBar = { TopBar(actions) },
     ) { innerPadding ->
         PullRefreshIndicatorView(
             modifier = Modifier.padding(innerPadding),

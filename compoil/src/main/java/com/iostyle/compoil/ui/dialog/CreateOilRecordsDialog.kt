@@ -30,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentManager
 import com.iostyle.compoil.ui.dialog.base.BaseBottomDialogCompose
-import com.iostyle.compoil.ui.theme.Text
-import com.iostyle.compoil.ui.theme.color
 import java.util.regex.Pattern
 
 class CreateOilRecordsDialog : BaseBottomDialogCompose() {
@@ -66,7 +64,7 @@ class CreateOilRecordsDialog : BaseBottomDialogCompose() {
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "添加一笔加油记录", fontSize = 24.sp, color = Text.color
+                    text = "添加一笔加油记录", fontSize = 24.sp, color = MaterialTheme.colorScheme.onSurface,
                 )
                 Column(
                     verticalArrangement = Arrangement.Top,
@@ -84,7 +82,7 @@ class CreateOilRecordsDialog : BaseBottomDialogCompose() {
                             .height(100.dp)
                             .padding(0.dp, 0.dp, 0.dp, 10.dp),
                         label = { Text(text = "当前里程", fontSize = 14.sp) },
-                        placeholder = { Text(text = "请输入当前里程（单位公里km）", fontSize = 14.sp) },
+                        placeholder = { Text(text = "请输入当前里程（单位公里）", fontSize = 14.sp) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
@@ -102,7 +100,7 @@ class CreateOilRecordsDialog : BaseBottomDialogCompose() {
                             .height(100.dp)
                             .padding(0.dp, 10.dp, 0.dp, 0.dp),
                         label = { Text(text = "本次加油", fontSize = 14.sp) },
-                        placeholder = { Text(text = "请输入本次加油量（单位升L）", fontSize = 14.sp) },
+                        placeholder = { Text(text = "请输入本次加油量（单位升）", fontSize = 14.sp) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Decimal,
                             imeAction = ImeAction.Done
@@ -111,10 +109,13 @@ class CreateOilRecordsDialog : BaseBottomDialogCompose() {
                         visualTransformation = NumberFilterTransformation(),
                     )
 
-                    Button(onClick = {
-                        callback?.callback(mileageState.value.toInt(), oilInjectionState.value.toFloat())
-                        dismissAllowingStateLoss()
-                    }) { Text(text = "添加", color = Text.color) }
+                    Button(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(0.dp, 20.dp, 0.dp, 0.dp), onClick = {
+                            callback?.callback(mileageState.value.toInt(), oilInjectionState.value.toFloat())
+                            dismissAllowingStateLoss()
+                        }) { Text(text = "添加", color = MaterialTheme.colorScheme.onPrimary) }
                 }
             }
         }
