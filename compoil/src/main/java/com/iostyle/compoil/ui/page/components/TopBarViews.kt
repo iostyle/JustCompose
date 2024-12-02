@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.iostyle.compoil.ui.page.PageActions
 
 @Composable
@@ -28,12 +27,15 @@ fun TopBar(actions: PageActions) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier = Modifier, text = "Compoil", fontSize = 24.sp,
-            color = MaterialTheme.colorScheme.onTertiaryContainer, fontFamily = FontFamily.Monospace
+            modifier = Modifier, text = "Compoil",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onTertiaryContainer, fontFamily = FontFamily.Monospace,
         )
-        TopBarAddButton(modifier = Modifier
-            .align(Alignment.CenterEnd)
-            .padding(0.dp, 0.dp, 5.dp, 0.dp), actions = actions)
+        TopBarAddButton(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(0.dp, 0.dp, 5.dp, 0.dp), actions = actions
+        )
     }
 }
 

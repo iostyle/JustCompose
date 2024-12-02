@@ -31,8 +31,8 @@ fun PageScreen(
 }
 
 @Composable
-@Preview(name = "Page", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(name = "Page", showSystemUi = true)
+@Preview(name = "Dark Theme", showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Light Theme", showSystemUi = true)
 private fun PageScreenPreview(
     @PreviewParameter(PageStatePreviewParameterProvider::class)
     state: PageState
