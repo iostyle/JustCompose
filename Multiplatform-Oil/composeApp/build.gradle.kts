@@ -119,6 +119,10 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.iostyle.kmp.compoil"
             packageVersion = "1.0.0"
+            // 通知系统图标为模板图像 1.丢弃颜色信息 2.适配主题
+            macOS {
+                jvmArgs("-Dapple.awt.enableTemplateImages=true")
+            }
         }
     }
 }
