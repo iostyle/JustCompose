@@ -1,24 +1,23 @@
 package com.iostyle.kmp.compoil
 
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberTrayState
+import com.iostyle.kmp.compoil.ui.MenuBar
+import com.iostyle.kmp.compoil.ui.Tray
 
 fun main() = application {
+
+    // 设置托盘（状态栏图标）
+    Tray(this)
+
     Window(
         onCloseRequest = ::exitApplication,
         title = "Multiplatform-Oil",
     ) {
+        // 设置菜单栏
+        MenuBar(this@Window, this@application)
+
         App()
     }
 
-    val trayState = rememberTrayState()
-    val trayIcon = painterResource("ic_apple.svg")
-
-    // 设置托盘（状态栏图标）
-    Tray(state = trayState, icon = trayIcon, menu = {
-        Item("Exit", onClick = ::exitApplication)
-    })
 }
