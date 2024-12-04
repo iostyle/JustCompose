@@ -18,7 +18,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_21)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -29,9 +29,9 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     jvm("desktop")
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -51,7 +51,7 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     sourceSets {
         // Common
         commonMain.dependencies {
@@ -116,12 +116,29 @@ compose.desktop {
         mainClass = "com.iostyle.kmp.compoil.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.iostyle.kmp.compoil"
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
+            packageName = "Compoil"
             packageVersion = "1.0.0"
-            // 通知系统图标为模板图像 1.丢弃颜色信息 2.适配主题
             macOS {
+                // 通知系统图标为模板图像 1.丢弃颜色信息 2.适配主题
                 jvmArgs("-Dapple.awt.enableTemplateImages=true")
+                dockName = "Compoil"
+                /**
+                 * 1. 准备一张图片，重命名为 icon.png，其他大小尺寸可以通过终端命令生成
+                 * 2. 通过鼠标右键或者命令，创建一个名为 icons.iconset 的文件夹
+                 * mkdir icons.iconset
+                 * 3. 通过 "终端" 来快速创建各种不同尺寸要求的图片文件
+                 * sips -z 512 512 icon.png -o icons.iconset/icon_512x512.png
+                 * 4. "终端" 中运行下面的命令，就可以获得名为 icon.icns 的图标文件了
+                 * iconutil -c icns icons.iconset -o icon.icns
+                 */
+//                iconFile.set(project.file("icon.icns"))
+            }
+            linux {
+//                iconFile.set(project.file("icon.png"))
+            }
+            windows {
+//                iconFile.set(project.file("icon.ico"))
             }
         }
     }
