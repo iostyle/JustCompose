@@ -24,6 +24,14 @@ data class PageActions(
     val onFloatingButtonClick: (fragmentManager: FragmentManager) -> Unit = {},
 )
 
+val previewData by lazy {
+    mutableListOf(
+        Records(1730512179000, 1156, 5.64f),
+        Records(1731635379000, 1327, 7.92f),
+        Records(1733104179000, 1505, 6.66f),
+    )
+}
+
 /**
  * PreviewParameter Provider for PageScreen Preview
  * Add values to the sequence to see the preview in different states
@@ -31,7 +39,7 @@ data class PageActions(
 class PageStatePreviewParameterProvider : PreviewParameterProvider<PageState> {
     override val values: Sequence<PageState>
         get() = sequenceOf(
-            PageState(mutableListOf(Records(0, 1156, 5.64f), Records(1, 1327, 8.79f)), isRefreshing = false)
+            PageState(previewData, isRefreshing = false)
         )
 }
 
@@ -43,6 +51,6 @@ data class ItemPreview(
 class ListViewPreviewParameterProvider : PreviewParameterProvider<ItemPreview> {
     override val values: Sequence<ItemPreview>
         get() = sequenceOf(
-            ItemPreview(mutableListOf(Records(0, 1156, 5.64f), Records(1, 1327, 8.79f)), {})
+            ItemPreview(previewData, {})
         )
 }

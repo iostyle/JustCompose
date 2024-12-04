@@ -87,7 +87,7 @@ fun OilItemView(modifier: Modifier, item: Records, lastItem: Records? = null, de
                 fontSize = 13.sp
             )
             lastItem?.let {
-                val oil = it.oilInjection / (item.currentMileage - it.currentMileage) * 100f
+                val oil = item.oilInjection / (item.currentMileage - it.currentMileage) * 100f
                 val formattedOil = String.format(Locale.current.platformLocale, "%.2f", oil)
                 Text(
                     modifier = Modifier.align(Alignment.BottomEnd),
