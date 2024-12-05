@@ -132,7 +132,7 @@ compose.desktop {
                  * 4. "终端" 中运行下面的命令，就可以获得名为 icon.icns 的图标文件了
                  * iconutil -c icns icons.iconset -o icon.icns
                  */
-//                iconFile.set(project.file("icon.icns"))
+                iconFile.set(project.file("src/desktopMain/resources/icon.icns"))
             }
             linux {
 //                iconFile.set(project.file("icon.png"))
