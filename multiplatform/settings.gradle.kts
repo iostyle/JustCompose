@@ -1,4 +1,4 @@
-rootProject.name = "Multiplatform-Oil"
+rootProject.name = "multiplatform"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
